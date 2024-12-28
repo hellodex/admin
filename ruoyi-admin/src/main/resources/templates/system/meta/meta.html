@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('代币基本信息列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <label>tokenName：</label>
+                                <input type="text" name="name"/>
+                            </li>
+                            <li>
+                                <label>symbol：</label>
+                                <input type="text" name="symbol"/>
+                            </li>
+                            <li>
+                                <label>合约地址：</label>
+                                <input type="text" name="address"/>
+                            </li>
+                            <li>
+                                <label>图片：</label>
+                                <input type="text" name="logo"/>
+                            </li>
+                            <li>
+                                <label>chainCode：</label>
+                                <input type="text" name="chainCode"/>
+                            </li>
+                            <li>
+                                <label>加火：</label>
+                                <input type="text" name="hot"/>
+                            </li>
+                            <li>
+                                <label>decimals：</label>
+                                <input type="text" name="decimals"/>
+                            </li>
+                            <li>
+                                <label>协议名：</label>
+                                <input type="text" name="protocol"/>
+                            </li>
+                            <li>
+                                <label>协议地址：</label>
+                                <input type="text" name="protocolUrl"/>
+                            </li>
+                            <li>
+                                <label>白皮书地址：</label>
+                                <input type="text" name="whitePaper"/>
+                            </li>
+                            <li>
+                                <label>官网：</label>
+                                <input type="text" name="website"/>
+                            </li>
+                            <li>
+                                <label>discord：</label>
+                                <input type="text" name="discord"/>
+                            </li>
+                            <li>
+                                <label>twitter：</label>
+                                <input type="text" name="twitter"/>
+                            </li>
+                            <li>
+                                <label>telegram：</label>
+                                <input type="text" name="telegram"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:meta:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:meta:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:meta:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:meta:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:meta:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:meta:remove')}]];
+        var prefix = ctx + "system/meta";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "代币基本信息",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: '主键',
+                    visible: false
+                },
+                {
+                    field: 'name',
+                    title: 'token全名'
+                },
+                {
+                    field: 'symbol',
+                    title: '简称'
+                },
+                {
+                    field: 'address',
+                    title: '合约地址'
+                },
+                {
+                    field: 'logo',
+                    title: '图片'
+                },
+                {
+                    field: 'tokenType',
+                    title: '代币类型'
+                },
+                {
+                    field: 'chainCode',
+                    title: '链标识'
+                },
+                {
+                    field: 'hot',
+                    title: '${comment}'
+                },
+                {
+                    field: 'decimals',
+                    title: '精度'
+                },
+                {
+                    field: 'protocol',
+                    title: '协议名'
+                },
+                {
+                    field: 'protocolUrl',
+                    title: '协议地址'
+                },
+                {
+                    field: 'whitePaper',
+                    title: '白皮书地址'
+                },
+                {
+                    field: 'website',
+                    title: '网站'
+                },
+                {
+                    field: 'discord',
+                    title: '${comment}'
+                },
+                {
+                    field: 'twitter',
+                    title: '${comment}'
+                },
+                {
+                    field: 'telegram',
+                    title: '${comment}'
+                },
+                {
+                    field: 'comment',
+                    title: '备注'
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.TokenMetaMapper">
+    
+    <resultMap type="TokenMeta" id="TokenMetaResult">
+        <result property="id"    column="id"    />
+        <result property="name"    column="name"    />
+        <result property="symbol"    column="symbol"    />
+        <result property="address"    column="address"    />
+        <result property="logo"    column="logo"    />
+        <result property="tokenType"    column="token_type"    />
+        <result property="chainCode"    column="chain_code"    />
+        <result property="hot"    column="hot"    />
+        <result property="decimals"    column="decimals"    />
+        <result property="protocol"    column="protocol"    />
+        <result property="protocolUrl"    column="protocol_url"    />
+        <result property="whitePaper"    column="white_paper"    />
+        <result property="website"    column="website"    />
+        <result property="discord"    column="discord"    />
+        <result property="twitter"    column="twitter"    />
+        <result property="telegram"    column="telegram"    />
+        <result property="comment"    column="comment"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectTokenMetaVo">
+        select id, name, symbol, address, logo, token_type, chain_code, hot, decimals, protocol, protocol_url, white_paper, website, discord, twitter, telegram, comment, create_time from token_meta
+    </sql>
+
+    <select id="selectTokenMetaList" parameterType="TokenMeta" resultMap="TokenMetaResult">
+        <include refid="selectTokenMetaVo"/>
+        <where>  
+            <if test="name != null  and name != ''"> and name like concat('%', #{name}, '%')</if>
+            <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="tokenType != null "> and token_type = #{tokenType}</if>
+            <if test="chainCode != null  and chainCode != ''"> and chain_code = #{chainCode}</if>
+            <if test="hot != null "> and hot = #{hot}</if>
+            <if test="decimals != null "> and decimals = #{decimals}</if>
+            <if test="protocol != null  and protocol != ''"> and protocol = #{protocol}</if>
+            <if test="protocolUrl != null  and protocolUrl != ''"> and protocol_url = #{protocolUrl}</if>
+            <if test="whitePaper != null  and whitePaper != ''"> and white_paper = #{whitePaper}</if>
+            <if test="website != null  and website != ''"> and website = #{website}</if>
+            <if test="discord != null  and discord != ''"> and discord = #{discord}</if>
+            <if test="twitter != null  and twitter != ''"> and twitter = #{twitter}</if>
+            <if test="telegram != null  and telegram != ''"> and telegram = #{telegram}</if>
+            <if test="comment != null  and comment != ''"> and comment = #{comment}</if>
+        </where>
+    </select>
+    
+    <select id="selectTokenMetaById" parameterType="Long" resultMap="TokenMetaResult">
+        <include refid="selectTokenMetaVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertTokenMeta" parameterType="TokenMeta" useGeneratedKeys="true" keyProperty="id">
+        insert into token_meta
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null">name,</if>
+            <if test="symbol != null">symbol,</if>
+            <if test="address != null">address,</if>
+            <if test="logo != null">logo,</if>
+            <if test="tokenType != null">token_type,</if>
+            <if test="chainCode != null">chain_code,</if>
+            <if test="hot != null">hot,</if>
+            <if test="decimals != null">decimals,</if>
+            <if test="protocol != null">protocol,</if>
+            <if test="protocolUrl != null">protocol_url,</if>
+            <if test="whitePaper != null">white_paper,</if>
+            <if test="website != null">website,</if>
+            <if test="discord != null">discord,</if>
+            <if test="twitter != null">twitter,</if>
+            <if test="telegram != null">telegram,</if>
+            <if test="comment != null">comment,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="name != null">#{name},</if>
+            <if test="symbol != null">#{symbol},</if>
+            <if test="address != null">#{address},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="tokenType != null">#{tokenType},</if>
+            <if test="chainCode != null">#{chainCode},</if>
+            <if test="hot != null">#{hot},</if>
+            <if test="decimals != null">#{decimals},</if>
+            <if test="protocol != null">#{protocol},</if>
+            <if test="protocolUrl != null">#{protocolUrl},</if>
+            <if test="whitePaper != null">#{whitePaper},</if>
+            <if test="website != null">#{website},</if>
+            <if test="discord != null">#{discord},</if>
+            <if test="twitter != null">#{twitter},</if>
+            <if test="telegram != null">#{telegram},</if>
+            <if test="comment != null">#{comment},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateTokenMeta" parameterType="TokenMeta">
+        update token_meta
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="name != null">name = #{name},</if>
+            <if test="symbol != null">symbol = #{symbol},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="tokenType != null">token_type = #{tokenType},</if>
+            <if test="chainCode != null">chain_code = #{chainCode},</if>
+            <if test="hot != null">hot = #{hot},</if>
+            <if test="decimals != null">decimals = #{decimals},</if>
+            <if test="protocol != null">protocol = #{protocol},</if>
+            <if test="protocolUrl != null">protocol_url = #{protocolUrl},</if>
+            <if test="whitePaper != null">white_paper = #{whitePaper},</if>
+            <if test="website != null">website = #{website},</if>
+            <if test="discord != null">discord = #{discord},</if>
+            <if test="twitter != null">twitter = #{twitter},</if>
+            <if test="telegram != null">telegram = #{telegram},</if>
+            <if test="comment != null">comment = #{comment},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteTokenMetaById" parameterType="Long">
+        delete from token_meta where id = #{id}
+    </delete>
+
+    <delete id="deleteTokenMetaByIds" parameterType="String">
+        delete from token_meta where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
