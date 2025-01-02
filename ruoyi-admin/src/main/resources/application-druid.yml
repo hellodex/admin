@@ -66,7 +66,7 @@ cloudflare:
     access-secret: "f4117ff04686eb26b713f2400b3ce8a58f67dadd1c731e34790ea39d367cfd98"
 
 http:
-    url: http://test.apihellodex.lol
+    url: https://test.apihellodex.lol
     channel: 50000
     key: "44af2492a5bd604ed0e39c700625e77ddad80f812ce1d249e98705efca35b9d3"
     version: 1.0

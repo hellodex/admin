@@ -7,6 +7,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.ruoyi.common.core.text.Convert;
 import com.ruoyi.common.enums.WithdrawStatus;
+import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.http.HttpUtilPlus;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -139,14 +140,29 @@ public class WithdrawalRecordController extends BaseController
     @Log(title = "提现记录", businessType = BusinessType.UPDATE)
     @PostMapping("/justDo")
     @ResponseBody
-    public AjaxResult justDo(String ids)
-    {
-        Long[] idsArr = Convert.toLongArray(ids);
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("ids", idsArr);
-        System.out.println(jsonObject.toJSONString());
-        String s = HttpUtilPlus.sendPost("/internal/withdraw/sendTransfer", jsonObject.toJSONString());
-        System.out.println(s);
-        return AjaxResult.success();
+    public AjaxResult justDo(String ids) {
+
+        try {
+            if (StringUtils.isEmpty(ids)) {
+                return AjaxResult.error("IDs cannot be empty");
+            }
+
+            Long[] idsArr = Convert.toLongArray(ids);
+            JSONObject jsonObject = new JSONObject();
+            jsonObject.put("ids", idsArr);
+
+            String response = HttpUtilPlus.sendPost("/internal/withdraw/sendTransfer", jsonObject.toJSONString());
+            JSONObject jsonResponse = JSON.parseObject(response);
+
+            Integer code = jsonResponse.getInteger("code");
+            if (code == null || code != 200) {
+                return AjaxResult.error(jsonResponse.getString("msg"));
+            } else {
+                return AjaxResult.success();
+            }
+        } catch (Exception e) {
+            // Log the exception for debugging purposes
+            return AjaxResult.error("An error occurred: " + e.getMessage());
+        }
     }
 }
