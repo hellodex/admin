@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.RankingTokensMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.RankingTokens" id="RankingTokensResult">
+        <result property="id"    column="id"    />
+        <result property="rankingId"    column="ranking_id"    />
+        <result property="infoId"    column="info_id"    />
+        <result property="searchId"    column="search_id"    />
+        <result property="chainCode"    column="chain_code"    />
+        <result property="priority"    column="priority"    />
+        <result property="hot"    column="hot"    />
+        <result property="dex"    column="dex"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="createTime"    column="create_time"    />
+    </resultMap>
+
+    <sql id="selectRankingTokensVo">
+        select id, ranking_id, info_id, search_id, chain_code, priority, hot, dex, start_time, end_time, create_time from ranking_tokens
+    </sql>
+
+    <select id="selectRankingTokensList1" parameterType="com.ruoyi.system.domain.RankingTokens" resultMap="RankingTokensResult">
+        <include refid="selectRankingTokensVo"/>
+        <where>  
+            <if test="rankingId != null "> and ranking_id = #{rankingId}</if>
+            <if test="infoId != null "> and info_id = #{infoId}</if>
+            <if test="searchId != null "> and search_id = #{searchId}</if>
+            <if test="chainCode != null  and chainCode != ''"> and chain_code = #{chainCode}</if>
+            <if test="priority != null "> and priority = #{priority}</if>
+            <if test="hot != null "> and hot = #{hot}</if>
+            <if test="dex != null "> and dex = #{dex}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+        </where>
+    </select>
+
+
+    <select id="selectRankingTokensList" resultType="com.ruoyi.system.domain.vo.RankingTokensVo">
+        SELECT rt.id,ri.`name` as rankingName,ts.base_address as baseAddress,ts.pair_address as pairAddress,
+            rt.chain_code as chainCode,rt.priority as priority,
+            rt.hot as hot,rt.start_time as startTime,rt.end_time as endTime
+        FROM ranking_tokens rt
+            LEFT JOIN ranking_info ri ON rt.ranking_id = ri.id
+            LEFT JOIN token_search ts ON rt.search_id = ts.id
+        <where>
+            <if test="rankingId != null"> and ri.id = #{rankingId}</if>
+            <if test="baseAddress != null and baseAddress.trim() != ''"> and ts.base_address = #{baseAddress}</if>
+            <if test="chainCode != null and chainCode.trim() != ''"> and rt.chain_code = #{chainCode}</if>
+            <if test="startTime != null"> and DATE_FORMAT(rt.start_time, '%Y-%m-%d %H:%i:%s') &gt;= DATE_FORMAT(#{startTime}, '%Y-%m-%d %H:%i:%s')</if>
+            <if test="endTime != null"> and DATE_FORMAT(rt.end_time, '%Y-%m-%d %H:%i:%s') &lt;= DATE_FORMAT(#{endTime}, '%Y-%m-%d %H:%i:%s')</if>
+       </where>
+        order by rt.priority desc,rt.hot desc
+    </select>
+
+    
+    <select id="selectRankingTokensById" parameterType="Long" resultMap="RankingTokensResult">
+        <include refid="selectRankingTokensVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertRankingTokens" parameterType="com.ruoyi.system.domain.RankingTokens" useGeneratedKeys="true" keyProperty="id">
+        insert into ranking_tokens
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="rankingId != null">ranking_id,</if>
+            <if test="infoId != null">info_id,</if>
+            <if test="searchId != null">search_id,</if>
+            <if test="chainCode != null">chain_code,</if>
+            <if test="priority != null">priority,</if>
+            <if test="hot != null">hot,</if>
+            <if test="dex != null">dex,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="createTime != null">create_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="rankingId != null">#{rankingId},</if>
+            <if test="infoId != null">#{infoId},</if>
+            <if test="searchId != null">#{searchId},</if>
+            <if test="chainCode != null">#{chainCode},</if>
+            <if test="priority != null">#{priority},</if>
+            <if test="hot != null">#{hot},</if>
+            <if test="dex != null">#{dex},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="createTime != null">#{createTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateRankingTokens" parameterType="com.ruoyi.system.domain.RankingTokens">
+        update ranking_tokens
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="rankingId != null">ranking_id = #{rankingId},</if>
+            <if test="infoId != null">info_id = #{infoId},</if>
+            <if test="searchId != null">search_id = #{searchId},</if>
+            <if test="chainCode != null">chain_code = #{chainCode},</if>
+            <if test="priority != null">priority = #{priority},</if>
+            <if test="hot != null">hot = #{hot},</if>
+            <if test="dex != null">dex = #{dex},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteRankingTokensById" parameterType="Long">
+        delete from ranking_tokens where id = #{id}
+    </delete>
+
+    <delete id="deleteRankingTokensByIds" parameterType="String">
+        delete from ranking_tokens where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

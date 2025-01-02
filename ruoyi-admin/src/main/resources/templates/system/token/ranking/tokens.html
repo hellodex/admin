@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+    <th:block th:include="include :: header('榜单列表')" />
+</head>
+<body class="gray-bg">
+     <div class="container-div">
+        <div class="row">
+            <div class="col-sm-12 search-collapse">
+                <form id="formId">
+                    <div class="select-list">
+                        <ul>
+                            <li>
+                                <!-- 榜单类型选择框 -->
+                                <label for="rankingId">榜单类型：</label>
+                                <select id="rankingId" name="rankingId" class="form-control" style="width: 100px">
+                                    <option value="">请选择</option>
+                                    <!-- 使用Thymeleaf遍历rankingInfoList并生成选项 -->
+                                    <option th:each="net : ${rankingInfoList}"
+                                            th:text="${net['name']}"
+                                            th:value="${net['id']}"></option>
+                                </select>
+                            </li>
+
+                            <li>
+                                <label>链标识：</label>
+                                <input  type="text" name="chainCode" style="width: 100px"/>
+                            </li>
+
+                            <li>
+                                <label>代币地址：</label>
+                                <input  type="text" name="baseAddress" style="width: 370px"/>
+                            </li>
+                            <!--<li>
+                                <label>代币对详情id：</label>
+                                <input type="text" name="infoId"/>
+                            </li>-->
+                            <!--<li>
+                                <label>池子id：</label>
+                                <input type="text" name="searchId"/>
+                            </li>-->
+
+                            <!--<li>
+                                <label>优先级</label>
+                                <input type="text" name="priority"/>
+                            </li>
+                            <li>
+                                <label>几个火：</label>
+                                <input type="text" name="hot"/>
+                            </li>
+                            <li>
+                                <label>来源：</label>
+                                <input type="text" name="dex"/>
+                            </li>-->
+                            <li>
+                                <label>起始时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择起始时间" name="startTime"/>
+                            </li>
+                            <li>
+                                <label>截止时间：</label>
+                                <input type="text" class="time-input" placeholder="请选择截止时间" name="endTime"/>
+                            </li>
+                            <li>
+                                <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
+                                <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+
+            <div class="btn-group-sm" id="toolbar" role="group">
+                <a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="system:tokens:ranking:add">
+                    <i class="fa fa-plus"></i> 添加
+                </a>
+                <a class="btn btn-primary single disabled" onclick="$.operate.edit()" shiro:hasPermission="system:tokens:ranking:edit">
+                    <i class="fa fa-edit"></i> 修改
+                </a>
+                <a class="btn btn-danger multiple disabled" onclick="$.operate.removeAll()" shiro:hasPermission="system:tokens:ranking:remove">
+                    <i class="fa fa-remove"></i> 删除
+                </a>
+                <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="system:tokens:ranking:export">
+                    <i class="fa fa-download"></i> 导出
+                </a>
+            </div>
+            <div class="col-sm-12 select-table table-striped">
+                <table id="bootstrap-table"></table>
+            </div>
+        </div>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var editFlag = [[${@permission.hasPermi('system:tokens:ranking:edit')}]];
+        var removeFlag = [[${@permission.hasPermi('system:tokens:ranking:remove')}]];
+        var prefix = ctx + "system/tokens/ranking";
+
+        $(function() {
+            var options = {
+                url: prefix + "/list",
+                createUrl: prefix + "/add",
+                updateUrl: prefix + "/edit/{id}",
+                removeUrl: prefix + "/remove",
+                exportUrl: prefix + "/export",
+                modalName: "榜单管理",
+                columns: [{
+                    checkbox: true
+                },
+                {
+                    field: 'id',
+                    title: '主键',
+                    visible: false
+                },
+                {
+                    field: 'rankingName',
+                    title: '榜单类型'
+                },
+                {
+                    field: 'chainCode',
+                    title: '链标识'
+                },
+                {
+                    field: 'baseAddress',
+                    title: '代币地址'
+                },
+                {
+                    field: 'pairAddress',
+                    title: '币对地址'
+                },
+                {
+                    field: 'priority',
+                    title: '优先级',
+                    sortable: true,
+                },
+                {
+                    field: 'hot',
+                    title: '几个火',
+                    sortable: true,
+                },
+                /*{
+                    field: 'dex',
+                    title: '来源'
+                },*/
+                {
+                    field: 'startTime',
+                    title: '起始时间'
+                },
+                {
+                    field: 'endTime',
+                    title: '截止时间',
+                    formatter: function(value, row, index) {
+                        return formatTime(value);
+                    }
+                },
+                {
+                    title: '操作',
+                    align: 'center',
+                    formatter: function(value, row, index) {
+                        var actions = [];
+                        actions.push('<a class="btn btn-success btn-xs ' + editFlag + '" href="javascript:void(0)" onclick="$.operate.edit(\'' + row.id + '\')"><i class="fa fa-edit"></i>编辑</a> ');
+                        actions.push('<a class="btn btn-danger btn-xs ' + removeFlag + '" href="javascript:void(0)" onclick="$.operate.remove(\'' + row.id + '\')"><i class="fa fa-remove"></i>删除</a>');
+                        return actions.join('');
+                    }
+                }]
+            };
+            $.table.init(options);
+        });
+
+        function formatTime(endTime) {
+            const now = new Date();
+            const end = new Date(endTime);
+            const diffTime = end - now;
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays < 0) {
+                return `${endTime} <span style="color: red;">[过期 ${Math.abs(diffDays)} 天]</span>`;
+            } else {
+                return `${endTime} <span style="color: green;">[剩余 ${diffDays} 天]</span>`;
+            }
+        }
+    </script>
+</body>
+</html>

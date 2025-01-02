@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AdWindowMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.AdWindow" id="AdWindowResult">
+        <result property="id"    column="id"    />
+        <result property="title"    column="title"    />
+        <result property="logo"    column="logo"    />
+        <result property="url"    column="url"    />
+        <result property="website"    column="website"    />
+        <result property="telegram"    column="telegram"    />
+        <result property="twitter"    column="twitter"    />
+        <result property="discord"    column="discord"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectAdWindowVo">
+        select id, title, logo, url, website, telegram, twitter, discord, start_time, end_time, add_time from ad_window
+    </sql>
+
+    <select id="selectAdWindowList" parameterType="com.ruoyi.system.domain.AdWindow" resultMap="AdWindowResult">
+        <include refid="selectAdWindowVo"/>
+        <where>  
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="website != null  and website != ''"> and website = #{website}</if>
+            <if test="telegram != null  and telegram != ''"> and telegram = #{telegram}</if>
+            <if test="twitter != null  and twitter != ''"> and twitter = #{twitter}</if>
+            <if test="discord != null  and discord != ''"> and discord = #{discord}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAdWindowById" parameterType="Long" resultMap="AdWindowResult">
+        <include refid="selectAdWindowVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAdWindow" parameterType="com.ruoyi.system.domain.AdWindow" useGeneratedKeys="true" keyProperty="id">
+        insert into ad_window
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="title != null">title,</if>
+            <if test="logo != null">logo,</if>
+            <if test="url != null">url,</if>
+            <if test="website != null">website,</if>
+            <if test="telegram != null">telegram,</if>
+            <if test="twitter != null">twitter,</if>
+            <if test="discord != null">discord,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="addTime != null">add_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="title != null">#{title},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="url != null">#{url},</if>
+            <if test="website != null">#{website},</if>
+            <if test="telegram != null">#{telegram},</if>
+            <if test="twitter != null">#{twitter},</if>
+            <if test="discord != null">#{discord},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="addTime != null">#{addTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAdWindow" parameterType="com.ruoyi.system.domain.AdWindow">
+        update ad_window
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="title != null">title = #{title},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="website != null">website = #{website},</if>
+            <if test="telegram != null">telegram = #{telegram},</if>
+            <if test="twitter != null">twitter = #{twitter},</if>
+            <if test="discord != null">discord = #{discord},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdWindowById" parameterType="Long">
+        delete from ad_window where id = #{id}
+    </delete>
+
+    <delete id="deleteAdWindowByIds" parameterType="String">
+        delete from ad_window where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

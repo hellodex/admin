@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改榜单信息')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-info-edit" th:object="${rankingInfo}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">榜单名称：</label>
+                    <div class="col-sm-8">
+                        <input name="name" th:field="*{name}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">${comment}：</label>
+                    <div class="col-sm-8">
+                        <input name="logo" th:field="*{logo}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">在页面中显示的位置 0: 首页 1:市场：</label>
+                    <div class="col-sm-8">
+                        <input name="location" th:field="*{location}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">排序：</label>
+                    <div class="col-sm-8">
+                        <input name="sort" th:field="*{sort}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/info";
+        $("#form-info-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-info-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

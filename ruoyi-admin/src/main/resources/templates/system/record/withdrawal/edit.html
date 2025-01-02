@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改提现记录')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-record-edit" th:object="${withdrawalRecord}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">${comment}：</label>
+                    <div class="col-sm-8">
+                        <input name="userUuid" th:field="*{userUuid}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">提现金额：</label>
+                    <div class="col-sm-8">
+                        <input name="amount" th:field="*{amount}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">${comment}：</label>
+                    <div class="col-sm-8">
+                        <input name="tokenAddress" th:field="*{tokenAddress}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">提现目标地址：</label>
+                    <div class="col-sm-8">
+                        <input name="walletAddress" th:field="*{walletAddress}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">提现链标识：</label>
+                    <div class="col-sm-8">
+                        <input name="chainCode" th:field="*{chainCode}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">哈希：</label>
+                    <div class="col-sm-8">
+                        <input name="tx" th:field="*{tx}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/record/withdrawal";
+        $("#form-record-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-record-edit').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

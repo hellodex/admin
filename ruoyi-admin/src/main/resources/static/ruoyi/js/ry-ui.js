@@ -800,6 +800,14 @@ var table = {
                     $.modal.reload();
                 });
             },
+
+            msgNoReload: function(msg, type) {
+                top.layer.msg(msg, {
+                    icon: $.modal.icon(type),
+                    time: 2000,
+                    shade: [0.1, '#8F8F8F']
+                });
+            },
             // 消息提示成功并刷新父窗体
             msgSuccessReload: function(msg) {
             	$.modal.msgReload(msg, modal_status.SUCCESS);

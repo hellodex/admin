@@ -8,6 +8,8 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.Date;
 import org.apache.commons.lang3.time.DateFormatUtils;
 
@@ -18,6 +20,10 @@ import org.apache.commons.lang3.time.DateFormatUtils;
  */
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils
 {
+
+    // 定义格式化器
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
     public static String YYYY = "yyyy";
 
     public static String YYYY_MM = "yyyy-MM";
@@ -188,4 +194,21 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils
         ZonedDateTime zdt = localDateTime.atZone(ZoneId.systemDefault());
         return Date.from(zdt.toInstant());
     }
+
+    public static Date toDateT(String string) {
+        if(StringUtils.isNotEmpty(string)){
+            // 时间字符串
+            // 定义格式化器
+            SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+            try {
+                // 解析字符串为 Date 对象
+                Date dateObject = formatter.parse(string);
+                return dateObject;
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+    }
+
 }

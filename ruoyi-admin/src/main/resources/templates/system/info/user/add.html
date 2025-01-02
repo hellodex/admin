@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增【用户信息】')" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-info-add">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">用户id：</label>
+                    <div class="col-sm-8">
+                        <input name="uuid" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">钱包地址：</label>
+                    <div class="col-sm-8">
+                        <input name="userAddress" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">IP地址：</label>
+                    <div class="col-sm-8">
+                        <input name="ip" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">邀请码：</label>
+                    <div class="col-sm-8">
+                        <input name="invitationCode" class="form-control" type="text" required>
+                        <!-- 添加提示信息 -->
+                        <small class="form-text text-muted">请输入有效的邀请码。不能包含【hellodex】</small>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/info/user"
+        $("#form-info-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-info-add').serialize());
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改【排行编辑】')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-tokens-edit" th:object="${rankingTokens}">
+            <input name="id" th:field="*{id}" type="hidden">
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required">榜单类型：</label>
+                    <div class="col-sm-8">
+                        <select name="rankingId" th:field="*{rankingId}" class="form-control">
+                            <option value="" disabled selected>请选择榜单类型</option>
+                            <option th:each="ranking : ${rankingInfoList}"
+                                    th:value="${ranking.id}"
+                                    th:text="${ranking.name}">
+                            </option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">代币地址：</label>
+                    <div class="col-sm-8">
+                        <input id="tokenInput" name="token" class="form-control" type="text" title="请输入有效地址">
+                        <div id="errorToken" class="text-danger"></div>
+                        <button  onclick="getPoolByToken($('#tokenInput').val())" class="btn btn-primary mt-2">输入后地址查询池子ID</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label is-required" >池子ID：</label>
+                    <div class="col-sm-8">
+                        <input id="searchId" name="searchId" th:field="*{searchId}" class="form-control" title="" readonly required>
+                        <small id="searchResult" class="form-text text-muted"></small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">链标识：</label>
+                    <div class="col-sm-8">
+                        <input name="chainCode" th:field="*{chainCode}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">榜单位置：</label>
+                    <div class="col-sm-8">
+                        <input name="priority" th:field="*{priority}" class="form-control" type="number" min="0" max="100"  placeholder="请输入优先级 (0-100)">
+                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 优先级 越大优先级越高</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">几个火：</label>
+                    <div class="col-sm-8">
+                        <input name="hot" th:field="*{hot}" class="form-control" type="number" min="0" max="10"  placeholder="请输入优先级 (0-10)">
+                        <span class="help-block m-b-none"><i class="fa fa-info-circle"></i> 显示的火图标的个数</span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">来源：</label>
+                    <div class="col-sm-8">
+                        <input name="dex" th:field="*{dex}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <!-- 新增开始时间和结束时间 -->
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label ">开始时间：</label>
+                    <div class="col-sm-8">
+                        <input name="startTime" id="startTime"  th:field="*{startTime}" class="form-control" type="datetime-local">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">结束时间：</label>
+                    <div class="col-sm-8">
+                        <input name="endTime" id="endTime" th:field="*{endTime}"  class="form-control" type="datetime-local">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/tokens/ranking";
+        $("#form-tokens-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-tokens-edit').serialize());
+            }
+        }
+
+        function getPoolByToken(baseAddress) {
+            if (baseAddress == null|| baseAddress === "") {
+                $.modal.alert("你倒是输入个地址呀！")
+                return
+            }
+            // 阻止默认行为以防止页面刷新
+            // 阻止默认行为以防止页面刷新
+            if (event && typeof event.preventDefault === 'function') {
+                try {
+                    event.preventDefault();
+                } catch (error) {
+                    console.error('Failed to prevent default action:', error);
+                }
+            }
+            $.modal.loading("正在查询中，请稍后...");
+            $("#searchId").val("");
+            $.ajax({
+                url:"/system/token/search/getSearchByToken",
+                type: 'POST',
+                dataType: "json",
+                contentType: "application/json;charset=UTF-8",
+                data: JSON.stringify({"baseAddress":baseAddress}),
+                success: function (result) {
+                    $.modal.closeLoading();
+                    if (result.code === web_status.SUCCESS) {
+                        var data = result.data;
+                        if(data !=null){
+                            $("#searchId").val(result.data.id)
+                            $("#searchResult").html("<span style='color: green;'>查询完成了，数据已填入！</span>");
+                        }else {
+                            $("#searchResult").html("<span style='color: red;'>没查着池子！咋回事</span>");
+                        }
+                    }
+                },
+                error: function(error) {
+                    $.modal.alertError("执行失败：" + error.message);
+                }
+            });
+        }
+
+        //---------------------时间判断-------------------------------------
+        const startTimeInput = document.getElementById('startTime');
+        const endTimeInput = document.getElementById('endTime');
+
+        // 确保结束时间不能早于开始时间
+        function updateMinMax() {
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+
+            if (isValidTime(startTime)) {
+                endTimeInput.setAttribute('min', startTime);
+            } else {
+                endTimeInput.removeAttribute('min');
+            }
+
+            if (isValidTime(endTime)) {
+                startTimeInput.setAttribute('max', endTime);
+            } else {
+                startTimeInput.removeAttribute('max');
+            }
+        }
+
+        function isValidTime(timeString) {
+            const time = new Date(timeString);
+            return !isNaN(time.getTime());
+        }
+
+        startTimeInput.addEventListener('change', function () {
+            updateMinMax();
+            // 触发失去焦点以关闭时间选择器
+            startTimeInput.blur();
+        });
+
+        endTimeInput.addEventListener('change', function () {
+            updateMinMax();
+            // 触发失去焦点以关闭时间选择器
+            endTimeInput.blur();
+        });
+
+       // 表单提交前的验证
+        document.querySelector('form').addEventListener('submit', function (event) {
+            const startTime = startTimeInput.value;
+            const endTime = endTimeInput.value;
+
+            if (!startTime || !endTime) {
+                alert('请填写完整的时间信息');
+                event.preventDefault();
+                return;
+            }
+
+            if (new Date(endTime) < new Date(startTime)) {
+                alert('结束时间不能早于开始时间');
+                event.preventDefault();
+            }
+        });
+
+        //---------------------时间判断-------------------------------------
+
+    </script>
+</body>
+</html>

@@ -58,4 +58,13 @@ public interface ITokenMetaService
      * @return 结果
      */
     public int deleteTokenMetaById(Long id);
+
+    /**
+     *  根据地址和链类型查询代币基本信息
+     * @param address
+     * @param chainCode
+     * @return TokenMeta
+     */
+
+    public TokenMeta getTokenMetaByAddressAndChainCode(String address,String chainCode);
 }

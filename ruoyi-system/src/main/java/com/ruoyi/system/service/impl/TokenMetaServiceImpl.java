@@ -93,4 +93,19 @@ public class TokenMetaServiceImpl implements ITokenMetaService
     {
         return tokenMetaMapper.deleteTokenMetaById(id);
     }
+
+    @Override
+    public TokenMeta getTokenMetaByAddressAndChainCode(String address, String chainCode) {
+        if (address == null || chainCode == null) {
+            return null;
+        }
+        TokenMeta tokenMeta = new TokenMeta();
+        tokenMeta.setAddress(address);
+        tokenMeta.setChainCode(chainCode);
+        List<TokenMeta> tokenMetas = tokenMetaMapper.selectTokenMetaList(tokenMeta);
+        if(!tokenMetas.isEmpty()){
+            return tokenMetas.get(0);
+        }
+        return null;
+    }
 }

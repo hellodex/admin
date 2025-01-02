@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.WithdrawalRecordMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.WithdrawalRecord" id="WithdrawalRecordResult">
+        <result property="id"    column="id"    />
+        <result property="userUuid"    column="user_uuid"    />
+        <result property="amount"    column="amount"    />
+        <result property="tokenAddress"    column="token_address"    />
+        <result property="walletAddress"    column="wallet_address"    />
+        <result property="chainCode"    column="chain_code"    />
+        <result property="tx"    column="tx"    />
+        <result property="status"    column="status"    />
+        <result property="createTime"    column="create_time"    />
+        <result property="updateTime"    column="update_time"    />
+    </resultMap>
+
+    <sql id="selectWithdrawalRecordVo">
+        select id, user_uuid, amount, token_address, wallet_address, chain_code, tx, status, create_time, update_time from withdrawal_record
+    </sql>
+
+    <select id="selectWithdrawalRecordList" parameterType="com.ruoyi.system.domain.WithdrawalRecord" resultMap="WithdrawalRecordResult">
+        <include refid="selectWithdrawalRecordVo"/>
+        <where>  
+            <if test="userUuid != null  and userUuid != ''"> and user_uuid = #{userUuid}</if>
+            <if test="amount != null "> and amount = #{amount}</if>
+            <if test="tokenAddress != null  and tokenAddress != ''"> and token_address = #{tokenAddress}</if>
+            <if test="walletAddress != null  and walletAddress != ''"> and wallet_address = #{walletAddress}</if>
+            <if test="chainCode != null  and chainCode != ''"> and chain_code = #{chainCode}</if>
+            <if test="tx != null  and tx != ''"> and tx = #{tx}</if>
+            <if test="status != null "> and status = #{status}</if>
+        </where>
+    </select>
+    
+    <select id="selectWithdrawalRecordById" parameterType="Long" resultMap="WithdrawalRecordResult">
+        <include refid="selectWithdrawalRecordVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertWithdrawalRecord" parameterType="com.ruoyi.system.domain.WithdrawalRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into withdrawal_record
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="userUuid != null">user_uuid,</if>
+            <if test="amount != null">amount,</if>
+            <if test="tokenAddress != null">token_address,</if>
+            <if test="walletAddress != null">wallet_address,</if>
+            <if test="chainCode != null">chain_code,</if>
+            <if test="tx != null">tx,</if>
+            <if test="status != null">status,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateTime != null">update_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="userUuid != null">#{userUuid},</if>
+            <if test="amount != null">#{amount},</if>
+            <if test="tokenAddress != null">#{tokenAddress},</if>
+            <if test="walletAddress != null">#{walletAddress},</if>
+            <if test="chainCode != null">#{chainCode},</if>
+            <if test="tx != null">#{tx},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateWithdrawalRecord" parameterType="com.ruoyi.system.domain.WithdrawalRecord">
+        update withdrawal_record
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="userUuid != null">user_uuid = #{userUuid},</if>
+            <if test="amount != null">amount = #{amount},</if>
+            <if test="tokenAddress != null">token_address = #{tokenAddress},</if>
+            <if test="walletAddress != null">wallet_address = #{walletAddress},</if>
+            <if test="chainCode != null">chain_code = #{chainCode},</if>
+            <if test="tx != null">tx = #{tx},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteWithdrawalRecordById" parameterType="Long">
+        delete from withdrawal_record where id = #{id}
+    </delete>
+
+    <delete id="deleteWithdrawalRecordByIds" parameterType="String">
+        delete from withdrawal_record where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

@@ -65,7 +65,8 @@
         <dependency>
             <groupId>com.ruoyi</groupId>
             <artifactId>ruoyi-generator</artifactId>
-        </dependency>
+        </dependency><dependency><groupId>junit</groupId><artifactId>junit</artifactId></dependency>
+
 
     </dependencies>
 

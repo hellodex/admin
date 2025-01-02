@@ -59,3 +59,14 @@ spring:
                 wall:
                     config:
                         multi-statement-allow: true
+
+cloudflare:
+    account-id: "186135074c4098b61c79d68639cc54f1"
+    access-key-id: "230809e883691230d42a7a28bdb34955"
+    access-secret: "f4117ff04686eb26b713f2400b3ce8a58f67dadd1c731e34790ea39d367cfd98"
+
+http:
+    url: http://test.apihellodex.lol
+    channel: 50000
+    key: "44af2492a5bd604ed0e39c700625e77ddad80f812ce1d249e98705efca35b9d3"
+    version: 1.0

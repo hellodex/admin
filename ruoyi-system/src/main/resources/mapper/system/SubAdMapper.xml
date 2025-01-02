@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.SubAdMapper">
+    
+    <resultMap type="SubAd" id="SubAdResult">
+        <result property="id"    column="id"    />
+        <result property="adId"    column="ad_id"    />
+        <result property="chainId"    column="chain_id"    />
+        <result property="title"    column="title"    />
+        <result property="logo"    column="logo"    />
+        <result property="url"    column="url"    />
+        <result property="website"    column="website"    />
+        <result property="telegram"    column="telegram"    />
+        <result property="twitter"    column="twitter"    />
+        <result property="discord"    column="discord"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectSubAdVo">
+        select id, ad_id, chain_id, title, logo, url, website, telegram, twitter, discord, is_show, start_time, end_time, add_time from sub_ad
+    </sql>
+
+    <select id="selectSubAdList" parameterType="SubAd" resultMap="SubAdResult">
+        <include refid="selectSubAdVo"/>
+        <where>  
+            <if test="adId != null "> and ad_id = #{adId}</if>
+            <if test="chainId != null  and chainId != ''"> and chain_id = #{chainId}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="website != null  and website != ''"> and website = #{website}</if>
+            <if test="telegram != null  and telegram != ''"> and telegram = #{telegram}</if>
+            <if test="twitter != null  and twitter != ''"> and twitter = #{twitter}</if>
+            <if test="discord != null  and discord != ''"> and discord = #{discord}</if>
+            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectSubAdById" parameterType="Long" resultMap="SubAdResult">
+        <include refid="selectSubAdVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertSubAd" parameterType="SubAd" useGeneratedKeys="true" keyProperty="id">
+        insert into sub_ad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="adId != null">ad_id,</if>
+            <if test="chainId != null">chain_id,</if>
+            <if test="title != null">title,</if>
+            <if test="logo != null">logo,</if>
+            <if test="url != null">url,</if>
+            <if test="website != null">website,</if>
+            <if test="telegram != null">telegram,</if>
+            <if test="twitter != null">twitter,</if>
+            <if test="discord != null">discord,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="addTime != null">add_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="adId != null">#{adId},</if>
+            <if test="chainId != null">#{chainId},</if>
+            <if test="title != null">#{title},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="url != null">#{url},</if>
+            <if test="website != null">#{website},</if>
+            <if test="telegram != null">#{telegram},</if>
+            <if test="twitter != null">#{twitter},</if>
+            <if test="discord != null">#{discord},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="addTime != null">#{addTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateSubAd" parameterType="SubAd">
+        update sub_ad
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="adId != null">ad_id = #{adId},</if>
+            <if test="chainId != null">chain_id = #{chainId},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="website != null">website = #{website},</if>
+            <if test="telegram != null">telegram = #{telegram},</if>
+            <if test="twitter != null">twitter = #{twitter},</if>
+            <if test="discord != null">discord = #{discord},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteSubAdById" parameterType="Long">
+        delete from sub_ad where id = #{id}
+    </delete>
+
+    <delete id="deleteSubAdByIds" parameterType="String">
+        delete from sub_ad where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

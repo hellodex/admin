@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.AdMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.Ad" id="AdResult">
+        <result property="id"    column="id"    />
+        <result property="sort"    column="sort"    />
+        <result property="chainId"    column="chain_id"    />
+        <result property="chainCode"    column="chain_code"    />
+        <result property="chainType"    column="chain_type"    />
+        <result property="openType"    column="open_type"    />
+        <result property="title"    column="title"    />
+        <result property="logo"    column="logo"    />
+        <result property="url"    column="url"    />
+        <result property="adType"    column="ad_type"    />
+        <result property="website"    column="website"    />
+        <result property="telegram"    column="telegram"    />
+        <result property="twitter"    column="twitter"    />
+        <result property="discord"    column="discord"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="startTime"    column="start_time"    />
+        <result property="endTime"    column="end_time"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectAdVo">
+        select id, sort, chain_id, chain_code, chain_type, open_type, title, logo, url, ad_type, website, telegram, twitter, discord, is_show, start_time, end_time, add_time from ad
+    </sql>
+
+    <select id="selectAdList" parameterType="com.ruoyi.system.domain.Ad" resultMap="AdResult">
+        <include refid="selectAdVo"/>
+        <where>  
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="chainId != null "> and chain_id = #{chainId}</if>
+            <if test="chainCode != null  and chainCode != ''"> and chain_code = #{chainCode}</if>
+            <if test="chainType != null "> and chain_type = #{chainType}</if>
+            <if test="openType != null  and openType != ''"> and open_type = #{openType}</if>
+            <if test="title != null  and title != ''"> and title = #{title}</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="url != null  and url != ''"> and url = #{url}</if>
+            <if test="adType != null  and adType != ''"> and ad_type = #{adType}</if>
+            <if test="website != null  and website != ''"> and website = #{website}</if>
+            <if test="telegram != null  and telegram != ''"> and telegram = #{telegram}</if>
+            <if test="twitter != null  and twitter != ''"> and twitter = #{twitter}</if>
+            <if test="discord != null  and discord != ''"> and discord = #{discord}</if>
+            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+            <if test="startTime != null "> and start_time = #{startTime}</if>
+            <if test="endTime != null "> and end_time = #{endTime}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectAdById" parameterType="String" resultMap="AdResult">
+        <include refid="selectAdVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertAd" parameterType="com.ruoyi.system.domain.Ad" useGeneratedKeys="true" keyProperty="id">
+        insert into ad
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="sort != null">sort,</if>
+            <if test="chainId != null">chain_id,</if>
+            <if test="chainCode != null">chain_code,</if>
+            <if test="chainType != null">chain_type,</if>
+            <if test="openType != null">open_type,</if>
+            <if test="title != null">title,</if>
+            <if test="logo != null">logo,</if>
+            <if test="url != null">url,</if>
+            <if test="adType != null">ad_type,</if>
+            <if test="website != null">website,</if>
+            <if test="telegram != null">telegram,</if>
+            <if test="twitter != null">twitter,</if>
+            <if test="discord != null">discord,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="startTime != null">start_time,</if>
+            <if test="endTime != null">end_time,</if>
+            <if test="addTime != null">add_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="sort != null">#{sort},</if>
+            <if test="chainId != null">#{chainId},</if>
+            <if test="chainCode != null">#{chainCode},</if>
+            <if test="chainType != null">#{chainType},</if>
+            <if test="openType != null">#{openType},</if>
+            <if test="title != null">#{title},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="url != null">#{url},</if>
+            <if test="adType != null">#{adType},</if>
+            <if test="website != null">#{website},</if>
+            <if test="telegram != null">#{telegram},</if>
+            <if test="twitter != null">#{twitter},</if>
+            <if test="discord != null">#{discord},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="startTime != null">#{startTime},</if>
+            <if test="endTime != null">#{endTime},</if>
+            <if test="addTime != null">#{addTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateAd" parameterType="com.ruoyi.system.domain.Ad">
+        update ad
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="chainId != null">chain_id = #{chainId},</if>
+            <if test="chainCode != null">chain_code = #{chainCode},</if>
+            <if test="chainType != null">chain_type = #{chainType},</if>
+            <if test="openType != null">open_type = #{openType},</if>
+            <if test="title != null">title = #{title},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="url != null">url = #{url},</if>
+            <if test="adType != null">ad_type = #{adType},</if>
+            <if test="website != null">website = #{website},</if>
+            <if test="telegram != null">telegram = #{telegram},</if>
+            <if test="twitter != null">twitter = #{twitter},</if>
+            <if test="discord != null">discord = #{discord},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="startTime != null">start_time = #{startTime},</if>
+            <if test="endTime != null">end_time = #{endTime},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteAdById" parameterType="String">
+        delete from ad where id = #{id}
+    </delete>
+
+    <delete id="deleteAdByIds" parameterType="String">
+        delete from ad where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

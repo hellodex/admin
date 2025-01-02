@@ -18,6 +18,7 @@ import com.ruoyi.common.config.RuoYiConfig;
 import com.ruoyi.common.utils.DateUtils;
 import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.uuid.IdUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 文件处理工具类
@@ -286,6 +287,19 @@ public class FileUtils
         }
         String baseName = FilenameUtils.getBaseName(fileName);
         return baseName;
+    }
+
+    public static String getFileExtension(MultipartFile file) {
+        if (file == null || file.getOriginalFilename() == null) {
+            return "";
+        }
+        String fileName = file.getOriginalFilename();
+        int lastIndex = fileName.lastIndexOf(".");
+        if (lastIndex != -1 && lastIndex < fileName.length() - 1) {
+            return fileName.substring(lastIndex + 1).toLowerCase(); // 转换为小写以确保一致性
+        } else {
+            return ""; // 没有找到后缀或文件名只包含点
+        }
     }
 }
 

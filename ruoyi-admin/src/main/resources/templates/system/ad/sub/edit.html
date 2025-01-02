@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('修改子广告')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-ad-edit" th:object="${subAd}">
+            <input name="id" th:field="*{id}" type="hidden">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">关联adid：</label>
+                    <div class="col-sm-8">
+                        <input name="adId" th:field="*{adId}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">公链：</label>
+                    <div class="col-sm-8">
+                        <input name="chainId" th:field="*{chainId}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">广告标题：</label>
+                    <div class="col-sm-8">
+                        <input name="title" th:field="*{title}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">logo：</label>
+                    <div class="col-sm-8">
+                        <textarea name="logo" class="form-control">[[*{logo}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">跳转：</label>
+                    <div class="col-sm-8">
+                        <textarea name="url" class="form-control">[[*{url}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">官网：</label>
+                    <div class="col-sm-8">
+                        <textarea name="website" class="form-control">[[*{website}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">telegram：</label>
+                    <div class="col-sm-8">
+                        <textarea name="telegram" class="form-control">[[*{telegram}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">twitter：</label>
+                    <div class="col-sm-8">
+                        <textarea name="twitter" class="form-control">[[*{twitter}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">discord：</label>
+                    <div class="col-sm-8">
+                        <textarea name="discord" class="form-control">[[*{discord}]]</textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">0显示,1:隐藏：</label>
+                    <div class="col-sm-8">
+                        <input name="isShow" th:field="*{isShow}" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">开始时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <input name="startTime" th:value="${#dates.format(subAd.startTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">结束时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <input name="endTime" th:value="${#dates.format(subAd.endTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">添加时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <input name="addTime" th:value="${#dates.format(subAd.addTime, 'yyyy-MM-dd')}" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/ad/sub";
+        $("#form-ad-edit").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/edit", $('#form-ad-edit').serialize());
+            }
+        }
+
+        $("input[name='startTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='endTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+
+        $("input[name='addTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>
