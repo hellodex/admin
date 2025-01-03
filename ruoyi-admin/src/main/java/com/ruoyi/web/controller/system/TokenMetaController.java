@@ -139,7 +139,7 @@ public class TokenMetaController extends BaseController {
             return AjaxResult.warn("token已存在,不允许多次添加！");
         }
 
-        MultipartFile file = tokenMetaReq.getFile();
+        /*MultipartFile file = tokenMetaReq.getFile();
         //上传token logo
         if(!file.isEmpty()){
             //完整的路径
@@ -147,7 +147,7 @@ public class TokenMetaController extends BaseController {
             // 上传文件到R2
             r2Uploader.uploadImg(key,"logo", file);
             tokenMeta.setLogo(key);
-        }
+        }*/
         tokenMetaService.insertTokenMeta(tokenMeta);
 
         //添加热搜
@@ -232,6 +232,23 @@ public class TokenMetaController extends BaseController {
         updateTokenMeta.setLogo(key);
         tokenMetaService.updateTokenMeta(updateTokenMeta);
         return AjaxResult.success("上传成功");
+    }
+
+
+    @PostMapping("/uploadLogo")
+    @ResponseBody
+    public AjaxResult handleFileUpload(@RequestParam("file") MultipartFile file,
+                                   @RequestParam("address") String address,
+                                   @RequestParam("chainCode") String chainCode) throws IOException {
+
+        if(StringUtils.isEmpty(address)|| StringUtils.isEmpty(chainCode)){
+            return AjaxResult.error("address,chainCode参数不能为空");
+        }
+        //完整的路径
+        String key = chainCode + "/" +address+"."+ FileUtils.getFileExtension(file);;
+        r2Uploader.uploadImg(key,"logo", file);
+        // 上传文件到R2
+        return AjaxResult.success(key);
     }
 
 }
