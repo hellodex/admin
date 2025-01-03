@@ -13,7 +13,7 @@
                             <li>
                                 <!-- 榜单类型选择框 -->
                                 <label for="rankingId">榜单类型：</label>
-                                <select id="rankingId" name="rankingId" class="form-control" style="width: 100px">
+                                <select id="rankingId" name="rankingId" class="form-control" style="width: 150px">
                                     <option value="">请选择</option>
                                     <!-- 使用Thymeleaf遍历rankingInfoList并生成选项 -->
                                     <option th:each="net : ${rankingInfoList}"
@@ -22,10 +22,20 @@
                                 </select>
                             </li>
 
+
+
                             <li>
-                                <label>链标识：</label>
-                                <input  type="text" name="chainCode" style="width: 100px"/>
+                                <!-- 链标识 -->
+                                <label for="chainCode">链标识：</label>
+                                <select id="chainCode" name="chainCode" class="form-control" style="width: 150px">
+                                    <option value="">请选择</option>
+                                    <!-- 使用Thymeleaf遍历rankingInfoList并生成选项 -->
+                                    <option th:each="config : ${configsList}"
+                                            th:text="${config['chain']}"
+                                            th:value="${config['chainCode']}"></option>
+                                </select>
                             </li>
+
 
                             <li>
                                 <label>代币地址：</label>

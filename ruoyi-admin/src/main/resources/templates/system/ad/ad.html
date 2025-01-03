@@ -11,8 +11,15 @@
                     <div class="select-list">
                         <ul>
                             <li>
-                                <label>链标志：</label>
-                                <input type="text" name="chainCode"/>
+                                <!-- 链标识 -->
+                                <label for="chainCode">链标识：</label>
+                                <select id="chainCode" name="chainCode" class="form-control" style="width: 150px">
+                                    <option value="">请选择</option>
+                                    <!-- 使用Thymeleaf遍历rankingInfoList并生成选项 -->
+                                    <option th:each="config : ${configsList}"
+                                            th:text="${config['chain']}"
+                                            th:value="${config['chainCode']}"></option>
+                                </select>
                             </li>
                             <li>
                                 <label>广告标题：</label>
@@ -85,10 +92,7 @@
                     title: '${comment}',
                     visible: false
                 },
-                {
-                    field: 'sort',
-                    title: '排序'
-                },
+
                 {
                     field: 'chainCode',
                     title: '链标志'
@@ -111,6 +115,10 @@
                 {
                     field: 'logo',
                     title: 'logo'
+                },
+                {
+                    field: 'sort',
+                    title: '排序'
                 },
                 {
                     field: 'url',
@@ -143,7 +151,7 @@
                     field: 'isShow',
                     title: '是否显示',
                     formatter: function(value, row, index) {
-                        return value === "0" ? '显示' : '隐藏';
+                        return value === "0" ? '<span style="color: yellowgreen">显示</span>' : '隐藏';
                     }
                 },
                 {

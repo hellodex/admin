@@ -15,12 +15,19 @@
                                 <input type="text" name="symbol"/>
                             </li>
                             <li>
-                                <label>合约地址：</label>
-                                <input type="text" name="address" style="width: 370px"/>
+                                <!-- 链标识 -->
+                                <label for="chainCode">链标识：</label>
+                                <select id="chainCode" name="chainCode" class="form-control" style="width: 200px">
+                                    <option value="">请选择</option>
+                                    <!-- 使用Thymeleaf遍历rankingInfoList并生成选项 -->
+                                    <option th:each="config : ${configsList}"
+                                            th:text="${config['chain']}"
+                                            th:value="${config['chainCode']}"></option>
+                                </select>
                             </li>
                             <li>
-                                <label>链标识：</label>
-                                <input type="text" name="chainCode"/>
+                                <label>合约地址：</label>
+                                <input type="text" name="address" style="width: 370px"/>
                             </li>
                             <li>
                                 <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>

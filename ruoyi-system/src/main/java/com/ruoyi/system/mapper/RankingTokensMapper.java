@@ -59,4 +59,6 @@ public interface RankingTokensMapper
      * @return 结果
      */
     public int deleteRankingTokensByIds(String[] ids);
+
+    Integer getMaxPriorityByRankingId(Long rankingId);
 }

@@ -3,9 +3,11 @@ package com.ruoyi.web.controller.system;
 import java.util.List;
 
 import com.ruoyi.common.utils.DateUtils;
+import com.ruoyi.system.domain.Configs;
 import com.ruoyi.system.domain.RankingInfo;
 import com.ruoyi.system.domain.req.RankingTokensReq;
 import com.ruoyi.system.domain.vo.RankingTokensVo;
+import com.ruoyi.system.service.IConfigsService;
 import com.ruoyi.system.service.IRankingInfoService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.BeanUtils;
@@ -44,10 +46,14 @@ public class RankingTokensController extends BaseController
     @Autowired
     private IRankingInfoService rankingInfoService;
 
+    @Autowired
+    private IConfigsService configsService;
+
     @RequiresPermissions("system:tokens:ranking:view")
     @GetMapping()
     public String tokens(ModelMap mmap)
     {
+        mmap.put("configsList", configsService.selectConfigsList(new Configs()));
         mmap.put("rankingInfoList", rankingInfoService.selectRankingInfoList(new RankingInfo()));
         return prefix + "/tokens";
     }
@@ -72,6 +78,7 @@ public class RankingTokensController extends BaseController
     @GetMapping("/add")
     public String add(ModelMap mmap)
     {
+        mmap.put("configsList", configsService.selectConfigsList(new Configs()));
         mmap.put("rankingInfoList", rankingInfoService.selectRankingInfoList(new RankingInfo()));
         return prefix + "/add";
     }
@@ -133,4 +140,12 @@ public class RankingTokensController extends BaseController
     {
         return toAjax(rankingTokensService.deleteRankingTokensByIds(ids));
     }
+
+    @PostMapping( "/getMaxPriorityByRankingId")
+    @ResponseBody
+    public AjaxResult getMaxPriorityByRankingId(RankingTokensReq rankingTokensReq)
+    {
+        return AjaxResult.success(rankingTokensService.getMaxPriorityByRankingId(rankingTokensReq.getRankingId()));
+    }
+
 }

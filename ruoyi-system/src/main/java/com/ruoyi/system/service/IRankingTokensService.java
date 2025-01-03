@@ -59,4 +59,10 @@ public interface IRankingTokensService
      * @return 结果
      */
     public int deleteRankingTokensById(Long id);
+
+    /**
+     * 根据rankingId查询最大优先级
+     */
+
+    int getMaxPriorityByRankingId(Long rankingId);
 }

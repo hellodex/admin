@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh" xmlns:th="http://www.thymeleaf.org" >
+<head>
+    <th:block th:include="include :: header('新增公链配置')" />
+    <th:block th:include="include :: datetimepicker-css" />
+</head>
+<body class="white-bg">
+    <div class="wrapper wrapper-content animated fadeInRight ibox-content">
+        <form class="form-horizontal m" id="form-configs-add">
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">chain：</label>
+                    <div class="col-sm-8">
+                        <input name="chain" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">公链id：</label>
+                    <div class="col-sm-8">
+                        <input name="chainId" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">chainCode：</label>
+                    <div class="col-sm-8">
+                        <input name="chainCode" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">symbol：</label>
+                    <div class="col-sm-8">
+                        <input name="symbol" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主币在okxapi的地址：</label>
+                    <div class="col-sm-8">
+                        <input name="symbolAddress" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主网类型：</label>
+                    <div class="col-sm-8">
+                        <input name="network" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">0:显示,1:隐藏：</label>
+                    <div class="col-sm-8">
+                        <input name="isShow" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">排序：</label>
+                    <div class="col-sm-8">
+                        <input name="sort" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">链logo：</label>
+                    <div class="col-sm-8">
+                        <textarea name="logo" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主网币logo：</label>
+                    <div class="col-sm-8">
+                        <input name="tokenLogo" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主网地址：</label>
+                    <div class="col-sm-8">
+                        <textarea name="rpc" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">wssRpc：</label>
+                    <div class="col-sm-8">
+                        <input name="wssRpc" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">区块浏览器：</label>
+                    <div class="col-sm-8">
+                        <input name="browser" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">okx授权合约地址：</label>
+                    <div class="col-sm-8">
+                        <input name="approveAddress" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">代理合约：</label>
+                    <div class="col-sm-8">
+                        <textarea name="proxy" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">下单api：</label>
+                    <div class="col-sm-8">
+                        <textarea name="rpcProxy" class="form-control"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">公链主网币地址：</label>
+                    <div class="col-sm-8">
+                        <input name="address" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">包装主网币地址：</label>
+                    <div class="col-sm-8">
+                        <input name="wrapped" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">主网币位数：</label>
+                    <div class="col-sm-8">
+                        <input name="decimals" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">gas：</label>
+                    <div class="col-sm-8">
+                        <input name="gas" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">转账默认gasprice：</label>
+                    <div class="col-sm-8">
+                        <input name="sendGasPrice" class="form-control" type="text">
+                    </div>
+                </div>
+            </div>
+            <div class="col-xs-12">
+                <div class="form-group">
+                    <label class="col-sm-3 control-label">添加时间：</label>
+                    <div class="col-sm-8">
+                        <div class="input-group date">
+                            <input name="addTime" class="form-control" placeholder="yyyy-MM-dd" type="text">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <th:block th:include="include :: footer" />
+    <th:block th:include="include :: datetimepicker-js" />
+    <script th:inline="javascript">
+        var prefix = ctx + "system/chain/configs"
+        $("#form-configs-add").validate({
+            focusCleanup: true
+        });
+
+        function submitHandler() {
+            if ($.validate.form()) {
+                $.operate.save(prefix + "/add", $('#form-configs-add').serialize());
+            }
+        }
+
+        $("input[name='addTime']").datetimepicker({
+            format: "yyyy-mm-dd",
+            minView: "month",
+            autoclose: true
+        });
+    </script>
+</body>
+</html>

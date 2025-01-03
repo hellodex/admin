@@ -116,5 +116,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{id}
         </foreach>
     </delete>
-
+    <!--查询最大-->
+    <select id="getMaxPriorityByRankingId" resultType="java.lang.Integer">
+        SELECT COALESCE(MAX(priority), 0) as priority FROM ranking_tokens  WHERE ranking_id = #{rankingId};
+    </select>
 </mapper>

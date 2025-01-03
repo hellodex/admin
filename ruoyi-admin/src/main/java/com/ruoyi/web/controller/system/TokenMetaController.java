@@ -10,11 +10,13 @@ import com.ruoyi.common.utils.StringUtils;
 import com.ruoyi.common.utils.file.FileUtils;
 import com.ruoyi.common.utils.file.R2Uploader;
 import com.ruoyi.common.utils.poi.ExcelUtil;
+import com.ruoyi.system.domain.Configs;
 import com.ruoyi.system.domain.RankingInfo;
 import com.ruoyi.system.domain.RankingTokens;
 import com.ruoyi.system.domain.TokenMeta;
 import com.ruoyi.system.domain.TokenSearch;
 import com.ruoyi.system.domain.req.TokenMetaReq;
+import com.ruoyi.system.service.IConfigsService;
 import com.ruoyi.system.service.IRankingInfoService;
 import com.ruoyi.system.service.IRankingTokensService;
 import com.ruoyi.system.service.ITokenMetaService;
@@ -60,12 +62,16 @@ public class TokenMetaController extends BaseController {
     private IRankingTokensService  rankingTokensServiceImpl;
 
     @Autowired
+    private IConfigsService configsService;
+
+    @Autowired
     private R2Uploader r2Uploader;
 
     @RequiresPermissions("system:meta:view")
     @GetMapping()
-    public String meta()
+    public String meta(ModelMap mmap)
     {
+        mmap.put("configsList", configsService.selectConfigsList(new Configs()));
         return prefix + "/meta";
     }
 

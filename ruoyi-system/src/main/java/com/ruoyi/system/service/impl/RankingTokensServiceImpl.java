@@ -94,4 +94,10 @@ public class RankingTokensServiceImpl implements IRankingTokensService
     {
         return rankingTokensMapper.deleteRankingTokensById(id);
     }
+
+    @Override
+    public int getMaxPriorityByRankingId(Long rankingId) {
+        Integer maxPriorityByRankingId = rankingTokensMapper.getMaxPriorityByRankingId(rankingId);
+        return maxPriorityByRankingId+1;
+    }
 }

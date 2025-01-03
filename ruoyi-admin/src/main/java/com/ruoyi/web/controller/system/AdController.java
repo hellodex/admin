@@ -1,6 +1,9 @@
 package com.ruoyi.web.controller.system;
 
 import java.util.List;
+
+import com.ruoyi.system.domain.Configs;
+import com.ruoyi.system.service.IConfigsService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,10 +37,14 @@ public class AdController extends BaseController
     @Autowired
     private IAdService adService;
 
+    @Autowired
+    private IConfigsService configsService;
+
     @RequiresPermissions("system:ad:view")
     @GetMapping()
-    public String ad()
+    public String ad(ModelMap mmap)
     {
+        mmap.put("configsList", configsService.selectConfigsList(new Configs()));
         return prefix + "/ad";
     }
 
@@ -72,8 +79,9 @@ public class AdController extends BaseController
      * 新增广告
      */
     @GetMapping("/add")
-    public String add()
+    public String add(ModelMap mmap)
     {
+        mmap.put("configsList", configsService.selectConfigsList(new Configs()));
         return prefix + "/add";
     }
 
@@ -86,6 +94,7 @@ public class AdController extends BaseController
     @ResponseBody
     public AjaxResult addSave(Ad ad)
     {
+
         return toAjax(adService.insertAd(ad));
     }
 

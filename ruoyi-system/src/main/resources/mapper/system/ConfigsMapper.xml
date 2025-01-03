@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.ConfigsMapper">
+    
+    <resultMap type="com.ruoyi.system.domain.Configs" id="ConfigsResult">
+        <result property="id"    column="id"    />
+        <result property="chain"    column="chain"    />
+        <result property="chainId"    column="chain_id"    />
+        <result property="chainCode"    column="chain_code"    />
+        <result property="symbol"    column="symbol"    />
+        <result property="symbolAddress"    column="symbol_address"    />
+        <result property="network"    column="network"    />
+        <result property="isShow"    column="is_show"    />
+        <result property="sort"    column="sort"    />
+        <result property="logo"    column="logo"    />
+        <result property="tokenLogo"    column="token_logo"    />
+        <result property="rpc"    column="rpc"    />
+        <result property="wssRpc"    column="wss_rpc"    />
+        <result property="browser"    column="browser"    />
+        <result property="approveAddress"    column="approve_address"    />
+        <result property="proxy"    column="proxy"    />
+        <result property="rpcProxy"    column="rpc_proxy"    />
+        <result property="address"    column="address"    />
+        <result property="wrapped"    column="wrapped"    />
+        <result property="decimals"    column="decimals"    />
+        <result property="gas"    column="gas"    />
+        <result property="gasLimit"    column="gas_limit"    />
+        <result property="sendGasLimit"    column="send_gas_limit"    />
+        <result property="sendGasPrice"    column="send_gas_price"    />
+        <result property="addTime"    column="add_time"    />
+    </resultMap>
+
+    <sql id="selectConfigsVo">
+        select id, chain, chain_id, chain_code, symbol, symbol_address, network, is_show, sort, logo, token_logo, rpc, wss_rpc, browser, approve_address, proxy, rpc_proxy, address, wrapped, decimals, gas, gas_limit, send_gas_limit, send_gas_price, add_time from configs
+    </sql>
+
+    <select id="selectConfigsList" parameterType="com.ruoyi.system.domain.Configs" resultMap="ConfigsResult">
+        <include refid="selectConfigsVo"/>
+        <where>  
+            <if test="chain != null  and chain != ''"> and chain = #{chain}</if>
+            <if test="chainId != null "> and chain_id = #{chainId}</if>
+            <if test="chainCode != null  and chainCode != ''"> and chain_code = #{chainCode}</if>
+            <if test="symbol != null  and symbol != ''"> and symbol = #{symbol}</if>
+            <if test="symbolAddress != null  and symbolAddress != ''"> and symbol_address = #{symbolAddress}</if>
+            <if test="network != null  and network != ''"> and network = #{network}</if>
+            <if test="isShow != null  and isShow != ''"> and is_show = #{isShow}</if>
+            <if test="sort != null "> and sort = #{sort}</if>
+            <if test="logo != null  and logo != ''"> and logo = #{logo}</if>
+            <if test="tokenLogo != null  and tokenLogo != ''"> and token_logo = #{tokenLogo}</if>
+            <if test="rpc != null  and rpc != ''"> and rpc = #{rpc}</if>
+            <if test="wssRpc != null  and wssRpc != ''"> and wss_rpc = #{wssRpc}</if>
+            <if test="browser != null  and browser != ''"> and browser = #{browser}</if>
+            <if test="approveAddress != null  and approveAddress != ''"> and approve_address = #{approveAddress}</if>
+            <if test="proxy != null  and proxy != ''"> and proxy = #{proxy}</if>
+            <if test="rpcProxy != null  and rpcProxy != ''"> and rpc_proxy = #{rpcProxy}</if>
+            <if test="address != null  and address != ''"> and address = #{address}</if>
+            <if test="wrapped != null  and wrapped != ''"> and wrapped = #{wrapped}</if>
+            <if test="decimals != null  and decimals != ''"> and decimals = #{decimals}</if>
+            <if test="gas != null  and gas != ''"> and gas = #{gas}</if>
+            <if test="gasLimit != null  and gasLimit != ''"> and gas_limit = #{gasLimit}</if>
+            <if test="sendGasLimit != null  and sendGasLimit != ''"> and send_gas_limit = #{sendGasLimit}</if>
+            <if test="sendGasPrice != null  and sendGasPrice != ''"> and send_gas_price = #{sendGasPrice}</if>
+            <if test="addTime != null "> and add_time = #{addTime}</if>
+        </where>
+    </select>
+    
+    <select id="selectConfigsById" parameterType="String" resultMap="ConfigsResult">
+        <include refid="selectConfigsVo"/>
+        where id = #{id}
+    </select>
+
+    <insert id="insertConfigs" parameterType="com.ruoyi.system.domain.Configs" useGeneratedKeys="true" keyProperty="id">
+        insert into configs
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chain != null">chain,</if>
+            <if test="chainId != null">chain_id,</if>
+            <if test="chainCode != null">chain_code,</if>
+            <if test="symbol != null">symbol,</if>
+            <if test="symbolAddress != null">symbol_address,</if>
+            <if test="network != null">network,</if>
+            <if test="isShow != null">is_show,</if>
+            <if test="sort != null">sort,</if>
+            <if test="logo != null">logo,</if>
+            <if test="tokenLogo != null">token_logo,</if>
+            <if test="rpc != null">rpc,</if>
+            <if test="wssRpc != null">wss_rpc,</if>
+            <if test="browser != null">browser,</if>
+            <if test="approveAddress != null">approve_address,</if>
+            <if test="proxy != null">proxy,</if>
+            <if test="rpcProxy != null">rpc_proxy,</if>
+            <if test="address != null">address,</if>
+            <if test="wrapped != null">wrapped,</if>
+            <if test="decimals != null">decimals,</if>
+            <if test="gas != null">gas,</if>
+            <if test="gasLimit != null">gas_limit,</if>
+            <if test="sendGasLimit != null">send_gas_limit,</if>
+            <if test="sendGasPrice != null">send_gas_price,</if>
+            <if test="addTime != null">add_time,</if>
+         </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chain != null">#{chain},</if>
+            <if test="chainId != null">#{chainId},</if>
+            <if test="chainCode != null">#{chainCode},</if>
+            <if test="symbol != null">#{symbol},</if>
+            <if test="symbolAddress != null">#{symbolAddress},</if>
+            <if test="network != null">#{network},</if>
+            <if test="isShow != null">#{isShow},</if>
+            <if test="sort != null">#{sort},</if>
+            <if test="logo != null">#{logo},</if>
+            <if test="tokenLogo != null">#{tokenLogo},</if>
+            <if test="rpc != null">#{rpc},</if>
+            <if test="wssRpc != null">#{wssRpc},</if>
+            <if test="browser != null">#{browser},</if>
+            <if test="approveAddress != null">#{approveAddress},</if>
+            <if test="proxy != null">#{proxy},</if>
+            <if test="rpcProxy != null">#{rpcProxy},</if>
+            <if test="address != null">#{address},</if>
+            <if test="wrapped != null">#{wrapped},</if>
+            <if test="decimals != null">#{decimals},</if>
+            <if test="gas != null">#{gas},</if>
+            <if test="gasLimit != null">#{gasLimit},</if>
+            <if test="sendGasLimit != null">#{sendGasLimit},</if>
+            <if test="sendGasPrice != null">#{sendGasPrice},</if>
+            <if test="addTime != null">#{addTime},</if>
+         </trim>
+    </insert>
+
+    <update id="updateConfigs" parameterType="com.ruoyi.system.domain.Configs">
+        update configs
+        <trim prefix="SET" suffixOverrides=",">
+            <if test="chain != null">chain = #{chain},</if>
+            <if test="chainId != null">chain_id = #{chainId},</if>
+            <if test="chainCode != null">chain_code = #{chainCode},</if>
+            <if test="symbol != null">symbol = #{symbol},</if>
+            <if test="symbolAddress != null">symbol_address = #{symbolAddress},</if>
+            <if test="network != null">network = #{network},</if>
+            <if test="isShow != null">is_show = #{isShow},</if>
+            <if test="sort != null">sort = #{sort},</if>
+            <if test="logo != null">logo = #{logo},</if>
+            <if test="tokenLogo != null">token_logo = #{tokenLogo},</if>
+            <if test="rpc != null">rpc = #{rpc},</if>
+            <if test="wssRpc != null">wss_rpc = #{wssRpc},</if>
+            <if test="browser != null">browser = #{browser},</if>
+            <if test="approveAddress != null">approve_address = #{approveAddress},</if>
+            <if test="proxy != null">proxy = #{proxy},</if>
+            <if test="rpcProxy != null">rpc_proxy = #{rpcProxy},</if>
+            <if test="address != null">address = #{address},</if>
+            <if test="wrapped != null">wrapped = #{wrapped},</if>
+            <if test="decimals != null">decimals = #{decimals},</if>
+            <if test="gas != null">gas = #{gas},</if>
+            <if test="gasLimit != null">gas_limit = #{gasLimit},</if>
+            <if test="sendGasLimit != null">send_gas_limit = #{sendGasLimit},</if>
+            <if test="sendGasPrice != null">send_gas_price = #{sendGasPrice},</if>
+            <if test="addTime != null">add_time = #{addTime},</if>
+        </trim>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteConfigsById" parameterType="String">
+        delete from configs where id = #{id}
+    </delete>
+
+    <delete id="deleteConfigsByIds" parameterType="String">
+        delete from configs where id in 
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
